@@ -78,8 +78,8 @@
         }
 
         .card img {
-            width: 120px;
-            height: 120px;
+            max-width: 100%;
+            height: auto;
         }
 
         .card-title {
@@ -127,39 +127,39 @@
 <body>
     <nav>
         <h2 class="nav-title">Student Home</h2>
-        <a href="index.html" class="logout-btn">Logout</a>
+        <a href="{{ url_for('index') }}" class="logout-btn">Logout</a>
     </nav>
 
     <div class="container">
-        <div class="card"><a href="view_profile.html"><img src="images/profile.png" alt="Profile"><div class="card-title">Profile</div></a></div>
-        <div class="card"><a href="upload_resume.html"><img src="images/resume.png" alt="Resume"><div class="card-title">Resume</div></a></div>
-        <div class="card"><a href="job_postings.html"><img src="images/jobs.png" alt="Job Postings"><div class="card-title">Job Postings</div></a></div>
-        <div class="card"><a href="applied_status.html"><img src="images/status.png" alt="Applied Status"><div class="card-title">Applied Status</div></a></div>
+        <div class="card"><a href="{{ url_for('view_profile') }}"><img src="profile.png" alt="Profile"><div class="card-title">Profile</div></a></div>
+        <div class="card"><a href="{{ url_for('upload_resume') }}"><img src="resume.png" alt="Resume"><div class="card-title">Resume</div></a></div>
+        <div class="card"><a href="{{ url_for('job_postings') }}"><img src="jobs.png" alt="Job Postings"><div class="card-title">Job Postings</div></a></div>
+        <div class="card"><a href="{{ url_for('applied_status') }}"><img src="status.png" alt="Applied Status"><div class="card-title">Applied Status</div></a></div>
         <div class="card" onclick="toggleDropdown(event, 'interview-dropdown')">
-            <img src="images/interview.png" alt="Interview">
+            <img src="interview.png" alt="Interview">
             <div class="card-title">Interview</div>
             <div id="interview-dropdown" class="dropdown">
-                <a href="aptitude_test.html">Aptitude Test</a>
-                <a href="special_retest.html">Special Test</a>
+                <a href="/aptitude_test">Aptitude Test</a>
+                <a href="{{ url_for('special_retest') }}">Special Test</a>
             </div>
         </div>
         <div class="card" onclick="toggleDropdown(event, 'study-dropdown')">
-            <img src="images/study.png" alt="Study Materials">
+            <img src="study.png" alt="Study Materials">
             <div class="card-title">Study Materials</div>
             <div id="study-dropdown" class="dropdown">
-                <a href="view_study_materials_civil.html">Civil</a>
-                <a href="view_study_materials_cs.html">Computer Science</a>
-                <a href="view_study_materials_ee.html">Electrical</a>
-                <a href="view_study_materials_ece.html">Electronics</a>
-                <a href="view_study_materials_mech.html">Mechanical</a>
+                <a href="{{ url_for('view_study_materials', department='Civil') }}">Civil</a>
+                <a href="{{ url_for('view_study_materials', department='Computer Science') }}">Computer Science</a>
+                <a href="{{ url_for('view_study_materials', department='Electrical') }}">Electrical</a>
+                <a href="{{ url_for('view_study_materials', department='Electronics') }}">Electronics</a>
+                <a href="{{ url_for('view_study_materials', department='Mechanical') }}">Mechanical</a>
             </div>
         </div>
         <div class="card" onclick="toggleDropdown(event, 'meeting-dropdown')">
-            <img src="images/schedule.png" alt="Schedule Meetings">
+            <img src="schedule.png" alt="Schedule Meetings">
             <div class="card-title">Schedule Meetings</div>
             <div id="meeting-dropdown" class="dropdown">
-                <a href="book_slot.html">Book a Slot</a>
-                <a href="view_meetings.html">View Meetings</a>
+                <a href="{{ url_for('book_slot') }}">Book a Slot</a>
+                <a href="{{ url_for('view_meetings') }}">View Meetings</a>
             </div>
         </div>
     </div>
