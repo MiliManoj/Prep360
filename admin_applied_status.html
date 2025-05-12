@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Application Details</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to right, #1b1b2f, #162447);
+            color: white;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        .header {
+            background-color: #19034a;
+            color: white;
+            padding: 20px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .container {
+            width: 80%;
+            margin: 30px auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            text-align: center;
+        }
+        th {
+            background-color: #021c39;
+            color: white;
+        }
+        .view-resume-btn {
+            padding: 8px 12px;
+            background-color: #19034a;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .view-resume-btn:hover {
+            background-color: #130233;
+        }
+        .back-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: #021c39;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .back-button:hover {
+            background: #070347;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">Application Details</div>
+
+    <div class="container">
+        <table>
+            <tr>
+                <th>Job Title</th>
+                <th>Resume</th>
+                <th>Applied At</th>
+                <th>Status</th>
+            </tr>
+            {% for app in applications %}
+            <tr>
+                <td>{{ app.job_title }}</td>
+                <td>
+                    {% if app.resume %}
+                        <a href="{{ url_for('view_resume', filename=app.resume.split('/')[-1]) }}" class="view-resume-btn" target="_blank">View Resume</a>
+                    {% else %}
+                        No Resume Uploaded
+                    {% endif %}
+                </td>
+                <td>{{ app.applied_at }}</td>
+                <td>{{ app.status }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <a href="{{ url_for('applied_students') }}" class="back-button">Back to Applied Students</a>
+    </div>
+
+</body>
+</html>

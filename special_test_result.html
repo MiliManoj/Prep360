@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Special Test Results</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to right, #1b1b2f, #162447);
+            color: white;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-title {
+            font-size: 26px;
+            font-weight: bold;
+            flex-grow: 1;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+
+        .question-box {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: left;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .option {
+            margin: 4px 0;
+        }
+
+        .correct {
+            color: #00ff88;
+            font-weight: bold;
+        }
+
+        .incorrect {
+            color: #ff4d4d;
+            font-weight: bold;
+        }
+
+        .btn {
+            background: #e43f5a;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            background: #ba2f43;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="nav-title">Special Test Results</div>
+    </nav>
+
+    <div class="container">
+        <h2>Your Score: {{ score }} / {{ total_questions }}</h2>
+        <hr>
+        {% for question in all_questions %}
+            <div class="question-box">
+                <p><strong>Q{{ loop.index }}:</strong> {{ question.question_text }}</p>
+                <p class="option">A. {{ question.option_a }}</p>
+                <p class="option">B. {{ question.option_b }}</p>
+                <p class="option">C. {{ question.option_c }}</p>
+                <p class="option">D. {{ question.option_d }}</p>
+                <p><strong>Selected:</strong> {{ question.selected_option or "Not Answered" }}</p>
+                <p><strong>Correct:</strong> {{ question.correct_option }}</p>
+                <p class="{{ 'correct' if question.is_correct else 'incorrect' }}">
+                    {{ 'Correct' if question.is_correct else 'Incorrect' }}
+                </p>
+            </div>
+        {% endfor %}
+
+        <a href="{{ url_for('special_retest') }}" class="btn">Take Another Special Test</a>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Results</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to right, #1b1b2f, #162447);
+            color: white;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-title {
+            font-size: 26px;
+            font-weight: bold;
+            flex-grow: 1;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+
+        .result-box {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: left;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .correct { color: #4CAF50; font-weight: bold; }
+        .incorrect { color: #e43f5a; font-weight: bold; }
+
+        .btn-container {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .btn {
+            background: #e43f5a;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            background: #ba2f43;
+        }
+
+        .question-box {
+            margin-bottom: 20px;
+        }
+
+        .options {
+            margin-left: 20px;
+            text-align: left;
+        }
+
+        .option {
+            margin: 8px 0;
+        }
+
+    </style>
+</head>
+<body>
+    <nav>
+        <h2 class="nav-title">Test Results</h2>
+    </nav>
+
+    <div class="container">
+        <h3>Your Score: {{ score }} / {{ total_questions }}</h3>
+
+        <div class="result-box">
+            <h3>Answer Review</h3>
+            {% for question in all_questions %}
+                <div class="question-box">
+                    <p>
+                        <strong>Question {{ loop.index }}:</strong> {{ question.question_text }}
+                    </p>
+
+                    <div class="options">
+                        <div class="option">
+                            <strong>A:</strong> {{ question.option_a }}
+                        </div>
+                        <div class="option">
+                            <strong>B:</strong> {{ question.option_b }}
+                        </div>
+                        <div class="option">
+                            <strong>C:</strong> {{ question.option_c }}
+                        </div>
+                        <div class="option">
+                            <strong>D:</strong> {{ question.option_d }}
+                        </div>
+                    </div>
+
+                    <p>
+                        <strong>Your Selected Option:</strong> 
+                        <span class="{% if question.selected_option == question.correct_option %}correct{% else %}incorrect{% endif %}">
+                            {{ question.selected_option if question.selected_option else "Not Attempted" }}
+                        </span>
+                    </p>
+
+                    <p>
+                        <strong>Correct Option:</strong> {{ question.correct_option }}
+                    </p>
+
+                    <p class="{% if question.selected_option == question.correct_option %}correct{% else %}incorrect{% endif %}">
+                        {% if question.selected_option == question.correct_option %} ✔ Correct {% else %} ✘ Incorrect {% endif %}
+                    </p>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="btn-container">
+            <a href="{{ url_for('retest') }}" class="btn">Retake Test</a>
+            <a href="{{ url_for('student_home') }}" class="btn">Back</a>
+        </div>
+    </div>
+</body>
+</html>

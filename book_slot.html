@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book a Slot</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to right, #1b1b2f, #162447);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            width: 40%;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+        h2 {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+        select, input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: none;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.2);
+            color: black;
+            text-align: center;
+            outline: none;
+        }
+        .submit-btn {
+            background-color: #3498db;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .submit-btn:hover {
+            background-color: #2980b9;
+        }
+        .message {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #2ecc71;
+            color: white;
+            border-radius: 5px;
+        }
+        .back-btn {
+            display: block;
+            margin-top: 20px;
+            background: #000;
+            color: white;
+            padding: 10px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .back-btn:hover {
+            opacity: 0.8;
+        }
+    </style>
+    <script>
+        function redirectToHome() {
+            setTimeout(function () {
+                window.location.href = "{{ url_for('student_home') }}";
+            }, 3000);  // Redirect after 3 seconds
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h2>Book a Meeting Slot</h2>
+        
+        {% if message %}
+            <div class="message">{{ message }}</div>
+            <script>redirectToHome();</script>
+        {% else %}
+            <form action="{{ url_for('book_slot') }}" method="POST">
+                <label for="admin_id">Select Admin:</label>
+                <select name="admin_id" id="admin_id" required>
+                    {% for admin in admins %}
+                    <option value="{{ admin.id }}">{{ admin.username }}</option>
+                    {% endfor %}
+                </select>
+            
+                <label for="date">Select Date:</label>
+                <input type="date" name="date" id="date" required>
+            
+                <label for="time">Select Time:</label>
+                <input type="time" name="time" id="time" min="09:00" max="16:30" required>
+            
+                <button type="submit" class="submit-btn">Book Slot</button>
+            </form>
+        {% endif %}
+        
+        <a href="{{ url_for('student_home') }}" class="back-btn">Back to Home</a>
+    </div>
+</body>
+</html>

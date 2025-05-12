@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Meetings</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to right, #1b1b2f, #162447);
+            color: white;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        .header {
+            background-color: #19034a;
+            color: white;
+            padding: 20px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .container {
+            width: 80%;
+            margin: 30px auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            text-align: center;
+        }
+        th {
+            background-color: #021c39;
+            color: white;
+        }
+        .accept-btn, .reject-btn {
+            padding: 8px 12px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .accept-btn {
+            background-color: green;
+            color: white;
+        }
+        .reject-btn {
+            background-color: red;
+            color: white;
+        }
+        .accept-btn:hover {
+            background-color: darkgreen;
+        }
+        .reject-btn:hover {
+            background-color: darkred;
+        }
+        .back-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: #021c39;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .back-button:hover {
+            background: #070347;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">Manage Scheduled Meetings</div>
+
+    <div class="container">
+        {% if meetings %}
+        <table>
+            <tr>
+                <th>Student Name</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+            {% for meeting in meetings %}
+            <tr>
+                <td>{{ meeting.student_name }}</td>
+                <td>{{ meeting.date }}</td>
+                <td>{{ meeting.time }}</td>
+                <td id="status-{{ meeting.id }}">{{ meeting.status }}</td>
+                <td>
+                    <button class="accept-btn" onclick="updateStatus('{{ meeting.id }}', 'accepted')">Accept</button>
+                    <button class="reject-btn" onclick="updateStatus('{{ meeting.id }}', 'rejected')">Reject</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% else %}
+        <p>No scheduled meetings found.</p>
+        {% endif %}
+    
+        <a href="{{ url_for('admin_home') }}" class="back-button">Back to Home</a>
+    </div>
+
+    <script>
+        function updateStatus(meetingId, status) {
+            fetch('/admin/update_meeting_status', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ meeting_id: meetingId, status: status })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message === 'Meeting updated successfully') {
+                    document.getElementById(`status-${meetingId}`).innerText = status;
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+</html>

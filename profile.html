@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Profile</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to right, #1b1b2f, #162447);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .profile-container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            width: 50%;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+        .avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin-bottom: 20px;
+            border: 3px solid white;
+        }
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 10px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .edit-btn {
+            background: #3498db;
+            color: white;
+        }
+        .save-btn {
+            background: #2ecc71;
+            color: white;
+            display: none;
+        }
+        .cancel-btn {
+            background: #e43f5a;
+            color: white;
+            display: none;
+        }
+        .back-btn {
+            background: #000;
+            color: white;
+        }
+        .btn:hover {
+            opacity: 0.8;
+        }
+        input {
+            border: none;
+            border-radius: 5px;
+            padding: 8px;
+            width: 80%;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            text-align: center;
+            outline: none;
+        }
+        input:read-only {
+            background: rgba(255, 255, 255, 0.1);
+        }
+    </style>
+    <script>
+        function enableEdit() {
+            let inputs = document.querySelectorAll(".editable");
+            inputs.forEach(input => input.removeAttribute("readonly"));
+            document.getElementById("save-btn").style.display = "inline-block";
+            document.getElementById("cancel-btn").style.display = "inline-block";
+            document.getElementById("edit-btn").style.display = "none";
+        }
+
+        function cancelEdit() {
+            document.getElementById("edit-form").reset();
+            let inputs = document.querySelectorAll(".editable");
+            inputs.forEach(input => input.setAttribute("readonly", "true"));
+            document.getElementById("save-btn").style.display = "none";
+            document.getElementById("cancel-btn").style.display = "none";
+            document.getElementById("edit-btn").style.display = "inline-block";
+        }
+    </script>
+</head>
+<body>
+    <div class="profile-container">
+        <img src="{{ url_for('static', filename='images/avatar.png') }}" alt="Student Image" class="avatar">
+        <h2>{{ profile.name }}</h2>
+        
+        <form id="edit-form" method="POST" action="{{ url_for('update_profile') }}">
+            <p><strong>Email:</strong> <input type="email" name="email" class="editable" value="{{ profile.email }}" readonly></p>
+            <p><strong>Phone:</strong> <input type="text" name="phone" class="editable" value="{{ profile.phone }}" readonly></p>
+            <p><strong>Birthday:</strong> <input type="text" name="birthday" class="editable" value="{{ profile.birthday }}" readonly></p>
+            <p><strong>Gender:</strong> <input type="text" name="gender" class="editable" value="{{ profile.gender }}" readonly></p>
+            <p><strong>Address:</strong> <input type="text" name="address" class="editable" value="{{ profile.address }}" readonly></p>
+            <p><strong>Faculty Advisor:</strong> <input type="text" name="faculty_advisor" class="editable" value="{{ profile.faculty_advisor }}" readonly></p>
+            <p><strong>Department:</strong> {{ profile.department_name or 'Not Available' }}</p>
+            <p><strong>CGPA:</strong> <input type="text" name="CGPA" class="editable" value="{{ profile.CGPA }}" readonly></p>
+            
+            <button type="button" class="btn edit-btn" id="edit-btn" onclick="enableEdit()">Edit</button>
+            <button type="submit" class="btn save-btn" id="save-btn">Save</button>
+            <button type="button" class="btn cancel-btn" id="cancel-btn" onclick="cancelEdit()">Cancel</button>
+        </form>
+        
+        <a href="{{ url_for('student_home') }}" class="btn back-btn">Back to Home</a>
+    </div>
+</body>
+</html>

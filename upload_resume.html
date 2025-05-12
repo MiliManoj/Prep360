@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Resume</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to right, #1b1b2f, #162447);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .upload-container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            width: 50%;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+        .upload-container h2 {
+            color: white;
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+        input[type="file"] {
+            border: none;
+            border-radius: 5px;
+            padding: 10px;
+            width: 80%;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            text-align: center;
+            outline: none;
+            margin: 10px 0;
+        }
+        .btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+            width: 80%;
+        }
+        .upload-btn {
+            background: #2ecc71;
+            color: white;
+        }
+        .back-btn {
+            background: #000;
+            color: white;
+            margin-top: 10px;
+            display: inline-block;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+        }
+        .btn:hover, .back-btn:hover {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="upload-container">
+        <h2>Upload Your Resume</h2>
+        <form action="{{ url_for('upload_resume') }}" method="POST" enctype="multipart/form-data">
+            <input type="file" name="resume" accept=".pdf" required>
+            <button type="submit" class="btn upload-btn">Upload Resume</button>
+        </form>
+        <a href="{{ url_for('student_home') }}" class="back-btn">← Back to Home</a>
+    </div>
+</body>
+</html>

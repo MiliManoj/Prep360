@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Special Test</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to right, #1b1b2f, #162447);
+            color: white;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-title {
+            font-size: 26px;
+            font-weight: bold;
+            flex-grow: 1;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+
+        .question-box {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: left;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        label {
+            display: block;
+            margin: 5px 0;
+            font-size: 16px;
+        }
+
+        .btn-container {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .btn {
+            background: #e43f5a;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            background: #ba2f43;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="nav-title">Special Test</div>
+    </nav>
+
+    <div class="container">
+        <form id="special-test-form">
+            {% for question in questions %}
+                <div class="question-box">
+                    <p><strong>Q{{ loop.index }}:</strong> {{ question.question }}</p>
+                    <label><input type="radio" name="{{ question.id }}" value="A"> A. {{ question.option_a }}</label>
+                    <label><input type="radio" name="{{ question.id }}" value="B"> B. {{ question.option_b }}</label>
+                    <label><input type="radio" name="{{ question.id }}" value="C"> C. {{ question.option_c }}</label>
+                    <label><input type="radio" name="{{ question.id }}" value="D"> D. {{ question.option_d }}</label>
+                </div>
+            {% endfor %}
+            <div class="btn-container">
+                <button type="submit" class="btn">Submit</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('special-test-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const answers = {};
+            document.querySelectorAll('input[type=radio]:checked').forEach(input => {
+                answers[input.name] = input.value;
+            });
+
+            fetch("/submit_test", {
+                method: "POST",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ answers: answers })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+                if (data.redirect) window.location.href = data.redirect;
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("An error occurred while submitting the test.");
+            });
+        });
+    </script>
+</body>
+</html>

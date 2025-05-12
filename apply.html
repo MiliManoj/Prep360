@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apply for Job</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to right, #1b1b2f, #162447);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            width: 50%;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        .alert {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+        input {
+            width: 80%;
+            padding: 8px;
+            border: none;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            text-align: center;
+            outline: none;
+        }
+        input:read-only {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        button {
+            background: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: 0.3s;
+        }
+        button:hover {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        {% if job %}
+            <h1>Apply for {{ job.title }}</h1>
+            <p>{{ job.description }}</p>
+        {% else %}
+            <h1>Job not found</h1>
+        {% endif %}
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <form action="{{ url_for('submit_application', job_id=job['id']) }}" method="POST">
+            <label>Name:</label>
+            <input type="text" value="{{ student_name }}" readonly>
+
+            <label>Email:</label>
+            <input type="email" value="{{ student_email }}" readonly>
+
+            <label>Phone:</label>
+            <input type="text" value="{{ student_phone }}" readonly>
+
+            <label>CGPA:</label>
+            <input type="text" value="{{ student_cgpa }}" readonly>
+
+            {% if student_resume %}
+               <label>Resume:</label>
+               <a href="{{ student_resume }}" target="_blank">View Resume</a><br>
+            {% else %}
+                <p>No resume uploaded.</p>
+            {% endif %}
+
+            <button type="submit">Submit Application</button>
+        </form>
+    </div>
+</body>
+</html>

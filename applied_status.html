@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Applied Status</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to right, #1b1b2f, #162447);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            flex-direction: column;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            width: 80%;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        th, td {
+            padding: 12px;
+            border: 1px solid white;
+            text-align: center;
+        }
+        th {
+            background: #19034a;
+        }
+        a {
+            color: #3498db;
+            font-weight: bold;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .no-applications {
+            font-size: 18px;
+            font-weight: bold;
+            color: red;
+            padding: 20px;
+        }
+        .back-btn {
+            display: inline-block;
+            margin-top: 20px;
+            background: #540510;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .back-btn:hover {
+            background: #540510;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Applied Status</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Job Title</th>
+                    <th>Resume</th>
+                    <th>Applied Date</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if applications %}
+                    {% for application in applications %}
+                    <tr>
+                        <td>{{ application.job_title }}</td>
+                        <td>
+                            {% if application.resume %}
+                                <a href="{{ url_for('view_resume', filename=application.resume.split('/')[-1]) }}" target="_blank">View Resume</a>
+                            {% else %}
+                                No Resume Available
+                            {% endif %}
+                        </td>
+                        <td>{{ application.applied_at }}</td>
+                        <td>{{ application.status }}</td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="4" class="no-applications">No applications found.</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+        <a href="{{ url_for('student_home') }}" class="back-btn">Back to Home</a>
+    </div>
+</body>
+</html>

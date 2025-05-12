@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .glass {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.95);
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease-in-out;
+        }
+        .popup.active {
+            display: block;
+            transform: translate(-50%, -50%) scale(1);
+        }
+    </style>
+</head>
+<body class="h-screen bg-cover bg-center flex justify-center items-center relative" 
+    style="background-image: url('https://content.jdmagicbox.com/comp/kottayam/f1/9999px481.x481.140228075124.m9f1/catalogue/saintgits-college-of-engineering-pathamuttom-kottayam-colleges-0aanpkildj.jpg?w=3840&q=75');">
+    
+    <div class="absolute top-5 left-5">
+        <img src="{{ url_for('static', filename='images/logo_sg.png') }}" alt="Logo" class="w-20">
+    </div>
+    
+    <div class="glass text-center w-96">
+        <h1 class="text-xl font-bold text-gray-950">Welcome to the Login Portal</h1>
+        <div class="mt-4 space-y-3">
+            <button onclick="openPopup('admin')" class="w-full bg-blue-300 text-white py-2 rounded-lg hover:bg-blue-700">Admin Login</button>
+            <button onclick="openPopup('student')" class="w-full bg-blue-300 text-white py-2 rounded-lg hover:bg-blue-700">Student Login</button>
+            <button onclick="openPopup('company')" class="w-full bg-blue-300 text-white py-2 rounded-lg hover:bg-blue-700">Company Login</button>
+        </div>
+        <button onclick="openSignupPopup()" class="mt-4 text-sm text-gray-700 hover:text-gray-900">Create an Account</button>
+    </div>
+
+    <div id="popup" class="popup">
+        <h2 id="popup-title" class="text-lg font-semibold mb-2">Login</h2>
+        <input type="text" placeholder="Username" class="w-full border p-2 rounded mb-2" id="username">
+        <input type="password" placeholder="Password" class="w-full border p-2 rounded mb-2" id="password">
+        <button onclick="submitLogin()" class="w-full bg-black text-white py-2 rounded-lg">Login</button>
+        <button onclick="closePopup()" class="mt-2 text-sm text-gray-500">Close</button>
+    </div>
+
+    <!-- Signup Popup -->
+    <div id="signup-popup" class="popup">
+        <span class="close-btn" onclick="closeSignupPopup()">&times;</span>
+        <h2>Create Account</h2>
+        <input type="text" placeholder="Username" id="signup-username">
+        <input type="password" placeholder="Password" id="signup-password">
+        <select id="signup-role">
+            <option value="Student">Student</option>
+            <option value="Admin">Admin</option>
+            <option value="Company">Company</option>
+        </select>
+        <button onclick="submitSignup()">Create Account</button>
+    </div>
+    
+    <script>
+        let currentRole = '';
+
+        function openPopup(role) {
+            currentRole = role;
+            document.getElementById('popup-title').innerText = role.charAt(0).toUpperCase() + role.slice(1) + ' Login';
+            document.getElementById('popup').classList.add('active');
+        }
+
+        function closePopup() {
+            document.getElementById('popup').classList.remove('active');
+        }
+
+        function submitLogin() {
+            let username = document.getElementById('username').value.trim().toLowerCase();
+            let password = document.getElementById('password').value.trim();
+
+            if (!username || !password) {
+                alert("Please enter both username and password.");
+                return;
+            }
+
+            fetch('http://127.0.0.1:5000/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password, role: currentRole })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message === "Login successful") {
+                    alert(`Login successful as ${currentRole}!`);
+                    window.location.href = `/dashboard?role=${currentRole}`;
+                } else {
+                    alert("Invalid credentials");
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while logging in.');
+            });
+        }
+
+        function openSignupPopup() {
+            document.getElementById('signup-popup').style.display = 'block';
+        }
+
+        function closeSignupPopup() {
+            document.getElementById('signup-popup').style.display = 'none';
+        }
+
+        function submitSignup() {
+            let username = document.getElementById('signup-username').value.trim().toLowerCase();
+            let password = document.getElementById('signup-password').value.trim();
+            let role = document.getElementById('signup-role').value;
+
+            if (!username || !password) {
+                alert('Please enter a username and password');
+                return;
+            }
+
+            fetch('http://127.0.0.1:5000/signup', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password, role })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+                if (data.message === "Signup successful") closeSignupPopup();
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+</html>

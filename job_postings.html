@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upcoming Job Interviews</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to right, #1b1b2f, #162447);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            flex-direction: column;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            width: 90%;
+            max-width: 1200px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            overflow: hidden;
+        }
+        h1 {
+            margin-bottom: 10px;
+        }
+        .debug-info {
+            font-size: 14px;
+            color: #f1c40f;
+            margin-bottom: 10px;
+        }
+        .table-wrapper {
+            max-height: 500px;
+            overflow-y: auto;
+            border-radius: 8px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            text-align: center;
+        }
+        th {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        tr:nth-child(even) {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        .apply-btn {
+            background-color: #2ecc71;
+            color: white;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+        .apply-btn:hover {
+            background-color: #27ae60;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Upcoming Job Interviews</h1>
+
+        <!-- Debugging: Show the total number of jobs -->
+        <p class="debug-info">Total Jobs: {{ jobs|length }}</p>
+
+        
+
+        <div class="table-wrapper">
+            <table>
+                <tr>
+                    <th>Company Name</th>
+                    <th>Job Title</th>
+                    <th>Description</th>
+                    <th>Location</th>
+                    <th>Salary</th>
+                    <th>Requirements</th>
+                    <th>Deadline</th>
+                    <th>Apply</th>
+                </tr>
+                {% if jobs %}
+                    {% for job in jobs %}
+                    <tr>
+                        <td>{{ job.company_name }}</td>
+                        <td>{{ job.title }}</td>
+                        <td>{{ job.description }}</td>
+                        <td>{{ job.location }}</td>
+                        <td>{{ job.salary }}</td>
+                        <td>{{ job.requirements }}</td>
+                        <td>{{ job.deadline }}</td>
+                        <td>
+                            <a href="{{ url_for('apply', job_id=job.id) }}" class="apply-btn">Apply</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="8">No job postings available.</td>
+                    </tr>
+                {% endif %}
+            </table>
+        </div>
+    </div>
+</body>
+</html>

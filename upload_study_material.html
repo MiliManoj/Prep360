@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Study Material</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to right, #1b1b2f, #162447);
+            color: white;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            background-color: #19034a;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            width: 40%;
+            margin: 50px auto;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            text-align: left;
+        }
+
+        h2 {
+            color: white;
+            font-size: 22px;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+        }
+
+        select, input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid #ccc;
+            color: white;
+        }
+
+        button {
+            background-color: #19034a;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+            width: 100%;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: #14023a;
+        }
+
+        .back-link {
+            display: block;
+            margin-top: 20px;
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .back-link:hover {
+            color: #e43f5a;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">Admin Portal</div>
+
+    <div class="container">
+        <h2>Upload Study Material</h2>
+        
+        <form action="{{ url_for('upload_study_material') }}" method="POST" enctype="multipart/form-data">
+            <!-- Department Selection -->
+            <label for="department">Select Department:</label>
+            <select name="department" required>
+                <option value="">--Select--</option>
+                <option value="Civil">Civil</option>
+                <option value="Computer Science">Computer Science</option>
+                <option value="Electrical">Electrical</option>
+                <option value="Electronics">Electronics</option>
+                <option value="Mechanical">Mechanical</option>
+            </select>
+
+            <br><br>
+
+            <!-- File Upload -->
+            <input type="file" name="file" required>
+
+            <br><br>
+
+            <!-- Submit Button -->
+            <button type="submit">Upload Study Material</button>
+        </form>
+
+        <!-- Back to Home Link -->
+        <a href="{{ url_for('admin_home') }}" class="back-link">← Back to Admin Home</a>
+    </div>
+
+</body>
+</html>

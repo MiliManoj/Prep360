@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scheduled Meetings</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to right, #1b1b2f, #162447);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            width: 70%;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+        h2 {
+            color: white;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+        th {
+            background-color: #19034a;
+            color: white;
+        }
+        .status {
+            font-weight: bold;
+            text-transform: capitalize;
+        }
+        .pending { color: orange; }
+        .approved { color: green; }
+        .rejected { color: red; }
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            background: #19034a;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        a:hover {
+            background: #0d0224;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Your Scheduled Meetings</h2>
+
+        {% if meetings %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Admin</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for meeting in meetings %}
+                <tr>
+                    <td>{{ meeting.admin_name }}</td>
+                    <td>{{ meeting.date }}</td>
+                    <td>{{ meeting.time }}</td>
+                    <td class="status {{ meeting.status.lower() }}">{{ meeting.status }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>No scheduled meetings.</p>
+        {% endif %}
+        
+        <a href="{{ url_for('student_home') }}">Back to Home</a>
+    </div>
+</body>
+</html>
