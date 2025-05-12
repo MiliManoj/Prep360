@@ -131,25 +131,44 @@
     </nav>
 
     <div class="container">
-        <div class="card"><a href="{{ url_for('add_job_posting') }}"><img src="static/images/job_upload.png" alt="Add Job Postings"><div class="card-title">Add Job Postings</div></a></div>
-        <div class="card"><a href="{{ url_for('upload_study_material') }}"><img src="static/images/study_upload.png" alt="Study Material"><div class="card-title">Upload Study Materials</div></a></div>
-        <div class="card"><a href="{{ url_for('view_students') }}"><img src="static/images/student_profiles.png" alt="Student Profiles"><div class="card-title">View Student Profiles</div></a></div>
+        <div class="card">
+            <a href="{{ url_for('add_job_posting') }}">
+                <img src="job_upload.png" alt="Add Job Postings">
+                <div class="card-title">Add Job Postings</div>
+            </a>
+        </div>
+        <div class="card">
+            <a href="{{ url_for('upload_study_material') }}">
+                <img src="study_upload.png" alt="Study Material">
+                <div class="card-title">Upload Study Materials</div>
+            </a>
+        </div>
+        <div class="card">
+            <a href="{{ url_for('view_students') }}">
+                <img src="student_profiles.png" alt="Student Profiles">
+                <div class="card-title">View Student Profiles</div>
+            </a>
+        </div>
         <div class="card" onclick="toggleDropdown(event, 'meeting-dropdown')">
-            <img src="static/images/meetings.png" alt="Scheduled Meetings">
+            <img src="meetings.png" alt="Scheduled Meetings">
             <div class="card-title">Scheduled Meetings</div>
             <div id="meeting-dropdown" class="dropdown">
                 <a href="{{ url_for('admin_view_meetings') }}">View Meetings</a>
                 <a href="{{ url_for('manage_meetings') }}">Manage Meetings</a>
             </div>
         </div>
-        <div class="card"><a href="{{ url_for('applied_students') }}"><img src="static/images/application_status.png" alt="Applied Status"><div class="card-title">Applied Status</div></a></div>
+        <div class="card">
+            <a href="{{ url_for('applied_students') }}">
+                <img src="application_status.png" alt="Applied Status">
+                <div class="card-title">Applied Status</div>
+            </a>
+        </div>
         <div class="card">
             <a href="{{ url_for('student_performance') }}" style="text-decoration: none; color: inherit;">
-                <img src="static/images/performance.png" alt="Student Performance">
+                <img src="performance.png" alt="Student Performance">
                 <div class="card-title">Student Performance</div>
             </a>
         </div>
-        
     </div>
 
     <script>
@@ -163,7 +182,7 @@
             document.getElementById(id).parentElement.classList.toggle('active');
         }
 
-        document.addEventListener('click', function(event) {
+        document.addEventListener('click', function () {
             document.querySelectorAll('.card').forEach(card => card.classList.remove('active'));
         });
     </script>
